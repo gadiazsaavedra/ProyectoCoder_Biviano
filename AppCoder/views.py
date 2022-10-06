@@ -1,10 +1,14 @@
 from AppCoder.models import Familiar
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.template import loader
+
+#from django.shortcuts import render
 
 # Create your views here.
 
 
-def visualizar_familiares(request):
+def visualizar_familiares(request) -> HttpResponse:
+    template = loader.get_template("familiares.html")
     familiar1 = Familiar(
         nombre="Esteban", pariente="padre", edad=74, fecha_nacimiento="07-15-1948"
     )
@@ -23,4 +27,6 @@ def visualizar_familiares(request):
         "familiar3": familiar3,
         "familiar4": familiar4,
     }
-    return render(request, "AppCoder/familiares.html", contexto)
+    res = template.render(contexto)
+    return HttpResponse(res)
+    # return render(request, "AppCoder/familiares.html", contexto)
